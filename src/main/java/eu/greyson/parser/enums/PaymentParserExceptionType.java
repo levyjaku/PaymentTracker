@@ -18,9 +18,9 @@ public enum PaymentParserExceptionType {
     WRONG_DATA_LENGTH("Payment Entry has too many or too few parameters"),
 
     /**
-     * Value of payment is wrong
+     * Value of money amount is wrong
      */
-    WRONG_AMOUNT_VALUE("Payment Entry has wrong amount value"),
+    WRONG_MONEY_AMOUNT("Payment Entry has wrong amount value"),
 
     /**
      * Unknow currency code

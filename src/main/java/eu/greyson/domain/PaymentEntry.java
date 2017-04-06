@@ -8,9 +8,9 @@ import java.util.Currency;
 public class PaymentEntry {
 
     private final Double amount;
-    private final Currency currency;
+    private final String currency;
 
-    public PaymentEntry(Double amount, Currency currency) {
+    public PaymentEntry(Double amount, String currency) {
         this.amount = amount;
         this.currency = currency;
     }
@@ -19,7 +19,25 @@ public class PaymentEntry {
         return amount;
     }
 
-    public Currency getCurrency() {
+    public String getCurrency() {
         return currency;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        PaymentEntry that = (PaymentEntry) o;
+
+        if (!amount.equals(that.amount)) return false;
+        return currency.equals(that.currency);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = amount.hashCode();
+        result = 31 * result + currency.hashCode();
+        return result;
     }
 }

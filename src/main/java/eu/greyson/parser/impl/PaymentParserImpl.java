@@ -3,26 +3,33 @@ package eu.greyson.parser.impl;
 import eu.greyson.domain.PaymentEntry;
 import eu.greyson.parser.PaymentParser;
 import eu.greyson.parser.enums.PaymentParserExceptionType;
-import eu.greyson.parser.wrapper.PaymentParserResult;
+import eu.greyson.parser.wrapper.PaymentParsedResult;
 
 import java.util.Currency;
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  * Base implementation of Payment Parser  {@link PaymentParser}
  */
 
 public class PaymentParserImpl implements PaymentParser {
-    private final static String SEPARATOR = "\\\\s+";
+    private final static String SEPARATOR = "\\s+";
     private final static int PARAMETERS_REQUIRED_COUNT = 2;
 
+    private static List<String> extendedCurrencyCodes = new LinkedList<>();
+    {
+        extendedCurrencyCodes.add("RMB");
+    }
 
-    public PaymentParserResult parse(String source) {
+
+    public PaymentParsedResult parse(String source) {
 
         /**
          * Check if input is not empty
          */
         if (source == null || source.isEmpty()) {
-            return new PaymentParserResult(PaymentParserExceptionType.NO_DATA);
+            return new PaymentParsedResult(PaymentParserExceptionType.NO_DATA);
         }
 
         String[] parts = source.split(SEPARATOR);
@@ -33,18 +40,15 @@ public class PaymentParserImpl implements PaymentParser {
              * Check if input has right number of parameters
              */
             if (parts.length != PARAMETERS_REQUIRED_COUNT) {
-                return new PaymentParserResult(PaymentParserExceptionType.WRONG_DATA_LENGTH);
+                return new PaymentParsedResult(PaymentParserExceptionType.WRONG_DATA_LENGTH);
             } else {
 
                 /**
                  * Check if currency code has right
                  */
                 String currencyCode = parts[0];
-                Currency currency;
-                try {
-                    currency = Currency.getInstance(currencyCode);
-                } catch (IllegalArgumentException ie) {
-                    return new PaymentParserResult(PaymentParserExceptionType.WRONG_CURRENCY_VALUE);
+                if(!isCurrencyCodeValid(currencyCode)){
+                    return new PaymentParsedResult(PaymentParserExceptionType.WRONG_CURRENCY_VALUE);
                 }
 
                 /**
@@ -55,17 +59,31 @@ public class PaymentParserImpl implements PaymentParser {
                 try {
                     convertedCurrencyValue = Double.valueOf(currencyValue);
                 } catch (NumberFormatException ne) {
-                    return new PaymentParserResult(PaymentParserExceptionType.WRONG_AMOUNT_VALUE);
+                    return new PaymentParsedResult(PaymentParserExceptionType.WRONG_MONEY_AMOUNT);
                 }
 
-                return new PaymentParserResult(new PaymentEntry(convertedCurrencyValue, currency));
+                return new PaymentParsedResult(new PaymentEntry(convertedCurrencyValue, currencyCode));
             }
         } catch (RuntimeException re) {
             /**
              * When during parsing some error occurred set exception to result as uknown
              */
-            return new PaymentParserResult(PaymentParserExceptionType.UNKNOWN);
+            return new PaymentParsedResult(PaymentParserExceptionType.UNKNOWN);
         }
+    }
+
+    private boolean isCurrencyCodeValid(String currencyCode){
+        if(extendedCurrencyCodes.contains(currencyCode)){
+            return true;
+        }
+
+        try {
+            Currency.getInstance(currencyCode);
+        } catch (IllegalArgumentException ie){
+            return false;
+        }
+
+        return true;
     }
 
 
