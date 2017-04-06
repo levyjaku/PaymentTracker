@@ -1,15 +1,16 @@
 package eu.greyson.parser.wrapper;
 
 
+import eu.greyson.domain.PaymentEntry;
 import eu.greyson.parser.enums.PaymentParserExceptionType;
 
-public class PaymentParserResult<T> {
+public class PaymentParserResult {
 
-    private T ParsedEntity;
+    private PaymentEntry ParsedEntity;
 
-    private PaymentParserExceptionType exceptionType;
+    private PaymentParserExceptionType exceptionType = null;
 
-    public PaymentParserResult(T parsedEntity) {
+    public PaymentParserResult(PaymentEntry parsedEntity) {
         ParsedEntity = parsedEntity;
     }
 
@@ -17,11 +18,15 @@ public class PaymentParserResult<T> {
         this.exceptionType = exceptionType;
     }
 
-    public T getParsedEntity() {
+    public PaymentEntry getParsedEntity() {
         return ParsedEntity;
     }
 
     public PaymentParserExceptionType getExceptionType() {
         return exceptionType;
+    }
+
+    public boolean isValid(){
+        return (exceptionType == null);
     }
 }

@@ -11,12 +11,12 @@ import java.util.Currency;
  * Base implementation of Payment Parser  {@link PaymentParser}
  */
 
-public class PaymentParserImpl implements PaymentParser<PaymentParserResult> {
+public class PaymentParserImpl implements PaymentParser {
     private final static String SEPARATOR = "\\\\s+";
     private final static int PARAMETERS_REQUIRED_COUNT = 2;
 
 
-    public PaymentParserResult PaymentParser(String source) {
+    public PaymentParserResult parse(String source) {
 
         /**
          * Check if input is not empty
