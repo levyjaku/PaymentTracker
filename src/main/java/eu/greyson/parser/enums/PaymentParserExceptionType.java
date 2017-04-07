@@ -1,9 +1,9 @@
 package eu.greyson.parser.enums;
 
-import eu.greyson.parser.PaymentParser;
+import eu.greyson.parser.IPaymentParser;
 
 /**
- * Type of error which can occured when {@link PaymentParser} can not successfully parsed data
+ * Type of error which can occured when {@link IPaymentParser} can not successfully parsed data
  */
 
 public enum PaymentParserExceptionType {
