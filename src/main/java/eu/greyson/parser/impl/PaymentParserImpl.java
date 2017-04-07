@@ -62,7 +62,7 @@ public class PaymentParserImpl implements IPaymentParser {
                     return new ParsedPaymentEntry(PaymentParserExceptionType.WRONG_MONEY_AMOUNT);
                 }
 
-                return new ParsedPaymentEntry(new PaymentEntry(convertedCurrencyValue, currencyCode));
+                return new ParsedPaymentEntry(new PaymentEntry(currencyCode, convertedCurrencyValue));
             }
         } catch (RuntimeException re) {
             /**

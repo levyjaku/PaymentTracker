@@ -1,5 +1,4 @@
 package eu.greyson.domain;
-import java.util.Currency;
 
 /**
  * DTO for wrapping information about one payment entry
@@ -10,7 +9,7 @@ public class PaymentEntry {
     private final Double amount;
     private final String currency;
 
-    public PaymentEntry(Double amount, String currency) {
+    public PaymentEntry(String currency, Double amount) {
         this.amount = amount;
         this.currency = currency;
     }

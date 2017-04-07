@@ -67,11 +67,11 @@ public class PaymentParserTest {
         String rightPaymentEntry4 = "RMB +100.5";
         String rightPaymentEntry5 = "RMB +100.";
 
-        assertEqualsPaymentTest(rightPaymentEntry1, new ParsedPaymentEntry(new PaymentEntry(100.0, "USD")));
-        assertEqualsPaymentTest(rightPaymentEntry2, new ParsedPaymentEntry(new PaymentEntry(-100.0, "CZK")));
-        assertEqualsPaymentTest(rightPaymentEntry3, new ParsedPaymentEntry(new PaymentEntry(100.0, "RMB")));
-        assertEqualsPaymentTest(rightPaymentEntry4, new ParsedPaymentEntry(new PaymentEntry(100.5, "RMB")));
-        assertEqualsPaymentTest(rightPaymentEntry5, new ParsedPaymentEntry(new PaymentEntry(100.0, "RMB")));
+        assertEqualsPaymentTest(rightPaymentEntry1, new ParsedPaymentEntry(new PaymentEntry("USD", 100.0)));
+        assertEqualsPaymentTest(rightPaymentEntry2, new ParsedPaymentEntry(new PaymentEntry("CZK", -100.0)));
+        assertEqualsPaymentTest(rightPaymentEntry3, new ParsedPaymentEntry(new PaymentEntry("RMB", 100.0)));
+        assertEqualsPaymentTest(rightPaymentEntry4, new ParsedPaymentEntry(new PaymentEntry("RMB", 100.5)));
+        assertEqualsPaymentTest(rightPaymentEntry5, new ParsedPaymentEntry(new PaymentEntry("RMB", 100.0)));
     }
 
     private void assertEqualsPaymentTest(String input, ParsedPaymentEntry expected){
