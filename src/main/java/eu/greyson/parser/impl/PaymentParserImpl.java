@@ -5,6 +5,7 @@ import eu.greyson.parser.IPaymentParser;
 import eu.greyson.parser.enums.PaymentParserExceptionType;
 import eu.greyson.parser.wrapper.ParsedPaymentEntry;
 
+import java.math.BigDecimal;
 import java.util.Currency;
 import java.util.LinkedList;
 import java.util.List;
@@ -55,9 +56,9 @@ public class PaymentParserImpl implements IPaymentParser {
                  * Check if amount of money is right
                  */
                 String currencyValue = parts[1];
-                Double convertedCurrencyValue;
+                BigDecimal convertedCurrencyValue;
                 try {
-                    convertedCurrencyValue = Double.valueOf(currencyValue);
+                    convertedCurrencyValue = new BigDecimal(currencyValue);
                 } catch (NumberFormatException ne) {
                     return new ParsedPaymentEntry(PaymentParserExceptionType.WRONG_MONEY_AMOUNT);
                 }

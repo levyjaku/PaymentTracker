@@ -4,35 +4,18 @@ package eu.greyson.parser.wrapper;
 import eu.greyson.domain.PaymentEntry;
 import eu.greyson.parser.enums.PaymentParserExceptionType;
 
+/**
+ * Class for wrapping result from class implementing {@Link IPaymentParser}.
+ */
 public class ParsedPaymentEntry {
 
-    private PaymentEntry ParsedEntity;
+    private PaymentEntry paymentEntry;
 
+    /*
+     * Storing Exception Type if parsing is not finished successfully
+     */
     private PaymentParserExceptionType exceptionType = null;
 
-
-
-
-
-    public ParsedPaymentEntry(PaymentEntry parsedEntity) {
-        ParsedEntity = parsedEntity;
-    }
-
-    public ParsedPaymentEntry(PaymentParserExceptionType exceptionType) {
-        this.exceptionType = exceptionType;
-    }
-
-    public PaymentEntry getParsedEntity() {
-        return ParsedEntity;
-    }
-
-    public PaymentParserExceptionType getExceptionType() {
-        return exceptionType;
-    }
-
-    public boolean isValid(){
-        return (exceptionType == null);
-    }
 
     @Override
     public boolean equals(Object o) {
@@ -41,13 +24,13 @@ public class ParsedPaymentEntry {
 
         ParsedPaymentEntry that = (ParsedPaymentEntry) o;
 
-        if (ParsedEntity != null ? !ParsedEntity.equals(that.ParsedEntity) : that.ParsedEntity != null) return false;
+        if (paymentEntry != null ? !paymentEntry.equals(that.paymentEntry) : that.paymentEntry != null) return false;
         return exceptionType == that.exceptionType;
     }
 
     @Override
     public int hashCode() {
-        int result = ParsedEntity != null ? ParsedEntity.hashCode() : 0;
+        int result = paymentEntry != null ? paymentEntry.hashCode() : 0;
         result = 31 * result + (exceptionType != null ? exceptionType.hashCode() : 0);
         return result;
     }
@@ -55,8 +38,32 @@ public class ParsedPaymentEntry {
     @Override
     public String toString() {
         return "ParsedPaymentEntry{" +
-                "ParsedEntity=" + ParsedEntity +
+                "paymentEntry=" + paymentEntry +
                 ", exceptionType=" + exceptionType +
                 '}';
+    }
+
+    /**
+     * Getters and Setters
+     */
+
+    public ParsedPaymentEntry(PaymentEntry paymentEntry) {
+        this.paymentEntry = paymentEntry;
+    }
+
+    public ParsedPaymentEntry(PaymentParserExceptionType exceptionType) {
+        this.exceptionType = exceptionType;
+    }
+
+    public PaymentEntry getPaymentEntry() {
+        return paymentEntry;
+    }
+
+    public PaymentParserExceptionType getExceptionType() {
+        return exceptionType;
+    }
+
+    public boolean isValid() {
+        return (exceptionType == null);
     }
 }

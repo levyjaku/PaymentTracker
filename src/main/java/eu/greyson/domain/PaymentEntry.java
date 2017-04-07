@@ -1,20 +1,22 @@
 package eu.greyson.domain;
 
+import java.math.BigDecimal;
+
 /**
  * DTO for wrapping information about one payment entry
  */
 
 public class PaymentEntry {
 
-    private final Double amount;
+    private final BigDecimal amount;
     private final String currency;
 
-    public PaymentEntry(String currency, Double amount) {
+    public PaymentEntry(String currency, BigDecimal amount) {
         this.amount = amount;
         this.currency = currency;
     }
 
-    public Double getAmount() {
+    public BigDecimal getAmount() {
         return amount;
     }
 

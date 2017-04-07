@@ -15,8 +15,8 @@ public class ParsedPaymentFormatterImpl implements IParsedPaymentFormatter{
     public String format(ParsedPaymentEntry parsedPayment){
         if(parsedPayment.isValid()){
             return String.format(Locale.US, VALID_ENTRY_FORMAT,
-                    parsedPayment.getParsedEntity().getCurrency(),
-                    parsedPayment.getParsedEntity().getAmount());
+                    parsedPayment.getPaymentEntry().getCurrency(),
+                    parsedPayment.getPaymentEntry().getAmount());
         } else {
             return parsedPayment.getExceptionType().getMessage();
         }

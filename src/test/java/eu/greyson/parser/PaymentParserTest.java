@@ -6,16 +6,18 @@ import eu.greyson.parser.enums.PaymentParserExceptionType;
 import eu.greyson.parser.impl.PaymentParserImpl;
 import eu.greyson.parser.wrapper.ParsedPaymentEntry;
 import org.junit.Assert;
-import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
+
+import java.math.BigDecimal;
 
 
 public class PaymentParserTest {
 
-    private IPaymentParser parser;
+    private static IPaymentParser parser;
 
-    @Before
-    public void setUp() {
+    @BeforeClass
+    public static void setUp() {
         parser = new PaymentParserImpl();
     }
 
@@ -67,15 +69,15 @@ public class PaymentParserTest {
         String rightPaymentEntry4 = "RMB +100.5";
         String rightPaymentEntry5 = "RMB +100.";
 
-        assertEqualsPaymentTest(rightPaymentEntry1, new ParsedPaymentEntry(new PaymentEntry("USD", 100.0)));
-        assertEqualsPaymentTest(rightPaymentEntry2, new ParsedPaymentEntry(new PaymentEntry("CZK", -100.0)));
-        assertEqualsPaymentTest(rightPaymentEntry3, new ParsedPaymentEntry(new PaymentEntry("RMB", 100.0)));
-        assertEqualsPaymentTest(rightPaymentEntry4, new ParsedPaymentEntry(new PaymentEntry("RMB", 100.5)));
-        assertEqualsPaymentTest(rightPaymentEntry5, new ParsedPaymentEntry(new PaymentEntry("RMB", 100.0)));
+        assertEqualsPaymentTest(rightPaymentEntry1, new ParsedPaymentEntry(new PaymentEntry("USD", new BigDecimal(100.0))));
+        assertEqualsPaymentTest(rightPaymentEntry2, new ParsedPaymentEntry(new PaymentEntry("CZK", new BigDecimal(-100.0))));
+        assertEqualsPaymentTest(rightPaymentEntry3, new ParsedPaymentEntry(new PaymentEntry("RMB", new BigDecimal(100.0))));
+        assertEqualsPaymentTest(rightPaymentEntry4, new ParsedPaymentEntry(new PaymentEntry("RMB", new BigDecimal(100.5))));
+        assertEqualsPaymentTest(rightPaymentEntry5, new ParsedPaymentEntry(new PaymentEntry("RMB", new BigDecimal(100.0))));
     }
 
     private void assertEqualsPaymentTest(String input, ParsedPaymentEntry expected){
-        ParsedPaymentEntry parsedResult = this.parser.parse(input);
+        ParsedPaymentEntry parsedResult = parser.parse(input);
         Assert.assertEquals(expected, parsedResult);
 
     }

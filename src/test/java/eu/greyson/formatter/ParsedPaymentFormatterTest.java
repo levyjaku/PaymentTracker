@@ -1,29 +1,30 @@
 package eu.greyson.formatter;
 
 import eu.greyson.domain.PaymentEntry;
-import eu.greyson.domain.PaymentRegister;
 import eu.greyson.formatter.impl.ParsedPaymentFormatterImpl;
 import eu.greyson.parser.enums.PaymentParserExceptionType;
 import eu.greyson.parser.wrapper.ParsedPaymentEntry;
 import org.junit.Assert;
-import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
+
+import java.math.BigDecimal;
 
 public class ParsedPaymentFormatterTest {
 
-    private IParsedPaymentFormatter formatter;
+    private static IParsedPaymentFormatter formatter;
 
-    @Before
-    public void setUp() {
-        this.formatter = new ParsedPaymentFormatterImpl();
+    @BeforeClass
+    public static void setUp() {
+        formatter = new ParsedPaymentFormatterImpl();
     }
 
     @Test
     public void testFormatterIfPaymentEntryIsValid(){
-        ParsedPaymentEntry rightEntry1 = new ParsedPaymentEntry(new PaymentEntry("USD", 100.0));
-        ParsedPaymentEntry rightEntry2 = new ParsedPaymentEntry(new PaymentEntry("USD", +100.0));
-        ParsedPaymentEntry rightEntry3 = new ParsedPaymentEntry(new PaymentEntry("USD", -100.0));
-        ParsedPaymentEntry rightEntry4 = new ParsedPaymentEntry(new PaymentEntry("USD", +100.004));
+        ParsedPaymentEntry rightEntry1 = new ParsedPaymentEntry(new PaymentEntry("USD", new BigDecimal(100.0)));
+        ParsedPaymentEntry rightEntry2 = new ParsedPaymentEntry(new PaymentEntry("USD", new BigDecimal(+100.0)));
+        ParsedPaymentEntry rightEntry3 = new ParsedPaymentEntry(new PaymentEntry("USD", new BigDecimal(-100.0)));
+        ParsedPaymentEntry rightEntry4 = new ParsedPaymentEntry(new PaymentEntry("USD", new BigDecimal(+100.004)));
 
         checkRightPayment("USD 100.00", rightEntry1);
         checkRightPayment("USD 100.00", rightEntry2);
@@ -48,12 +49,12 @@ public class ParsedPaymentFormatterTest {
 
     private void checkRightPayment(String expectedOutput, ParsedPaymentEntry inputEntry){
         Assert.assertEquals(true, inputEntry.isValid());
-        Assert.assertEquals(expectedOutput, this.formatter.format(inputEntry));
+        Assert.assertEquals(expectedOutput, formatter.format(inputEntry));
     }
 
     private void checkWrongPayment(String expectedOutput, ParsedPaymentEntry inputEntry){
         Assert.assertEquals(false, inputEntry.isValid());
-        Assert.assertEquals(expectedOutput, this.formatter.format(inputEntry));
+        Assert.assertEquals(expectedOutput, formatter.format(inputEntry));
     }
 
 }
