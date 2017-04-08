@@ -14,7 +14,7 @@ public class ParsedPaymentEntry {
     /*
      * Storing Exception Type if parsing is not finished successfully
      */
-    private PaymentParserExceptionType exceptionType = null;
+    private ExceptionWrapper exceptionWrapper = null;
 
 
     @Override
@@ -25,13 +25,13 @@ public class ParsedPaymentEntry {
         ParsedPaymentEntry that = (ParsedPaymentEntry) o;
 
         if (paymentEntry != null ? !paymentEntry.equals(that.paymentEntry) : that.paymentEntry != null) return false;
-        return exceptionType == that.exceptionType;
+        return exceptionWrapper != null ? exceptionWrapper.equals(that.exceptionWrapper) : that.exceptionWrapper == null;
     }
 
     @Override
     public int hashCode() {
         int result = paymentEntry != null ? paymentEntry.hashCode() : 0;
-        result = 31 * result + (exceptionType != null ? exceptionType.hashCode() : 0);
+        result = 31 * result + (exceptionWrapper != null ? exceptionWrapper.hashCode() : 0);
         return result;
     }
 
@@ -39,7 +39,7 @@ public class ParsedPaymentEntry {
     public String toString() {
         return "ParsedPaymentEntry{" +
                 "paymentEntry=" + paymentEntry +
-                ", exceptionType=" + exceptionType +
+                ", exceptionWrapper=" + exceptionWrapper +
                 '}';
     }
 
@@ -51,19 +51,69 @@ public class ParsedPaymentEntry {
         this.paymentEntry = paymentEntry;
     }
 
-    public ParsedPaymentEntry(PaymentParserExceptionType exceptionType) {
-        this.exceptionType = exceptionType;
+    public ParsedPaymentEntry(PaymentParserExceptionType exceptionType, String originalInput) {
+        this.exceptionWrapper = new ExceptionWrapper(exceptionType, originalInput);
     }
 
     public PaymentEntry getPaymentEntry() {
         return paymentEntry;
     }
 
-    public PaymentParserExceptionType getExceptionType() {
-        return exceptionType;
+    public ExceptionWrapper getExceptionWrapper() {
+        return exceptionWrapper;
     }
 
     public boolean isValid() {
-        return (exceptionType == null);
+        return (exceptionWrapper == null);
     }
+
+
+    /**
+     * Inner Class for wrapping result after parsing invalid data
+     */
+    public class ExceptionWrapper {
+        final String originalInput;
+        final PaymentParserExceptionType exceptionType;
+
+        public ExceptionWrapper(PaymentParserExceptionType exceptionType, String originalInput) {
+            this.originalInput = originalInput;
+            this.exceptionType = exceptionType;
+        }
+
+        public String getOriginalInput() {
+            return originalInput;
+        }
+
+        public PaymentParserExceptionType getExceptionType() {
+            return exceptionType;
+        }
+
+        @Override
+        public String toString() {
+            return "ExceptionWrapper{" +
+                    "originalInput='" + originalInput + '\'' +
+                    ", exceptionType=" + exceptionType +
+                    '}';
+        }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+
+            ExceptionWrapper that = (ExceptionWrapper) o;
+
+            if (originalInput != null ? !originalInput.equals(that.originalInput) : that.originalInput != null)
+                return false;
+            return exceptionType == that.exceptionType;
+        }
+
+        @Override
+        public int hashCode() {
+            int result = originalInput != null ? originalInput.hashCode() : 0;
+            result = 31 * result + (exceptionType != null ? exceptionType.hashCode() : 0);
+            return result;
+        }
+    }
+
 }

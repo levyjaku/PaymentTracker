@@ -10,6 +10,8 @@ import org.junit.Test;
 
 import java.math.BigDecimal;
 
+import static eu.greyson.formatter.impl.ParsedPaymentFormatterImpl.INVALID_ENTRY_FORMAT;
+
 public class ParsedPaymentFormatterTest {
 
     private static IParsedPaymentFormatter formatter;
@@ -34,17 +36,17 @@ public class ParsedPaymentFormatterTest {
 
     @Test
     public void testFormatterIfPaymentEntryIsInvalid(){
-        ParsedPaymentEntry wrongEntryNoData = new ParsedPaymentEntry(PaymentParserExceptionType.NO_DATA);
-        ParsedPaymentEntry wrongEntryWrongDataLength = new ParsedPaymentEntry(PaymentParserExceptionType.WRONG_DATA_LENGTH);
-        ParsedPaymentEntry wrongEntryWrongMoneyAmount = new ParsedPaymentEntry(PaymentParserExceptionType.WRONG_MONEY_AMOUNT);
-        ParsedPaymentEntry wrongEntryWrongCurrencyValue = new ParsedPaymentEntry(PaymentParserExceptionType.WRONG_CURRENCY_VALUE);
-        ParsedPaymentEntry wrongEntryUnknown = new ParsedPaymentEntry(PaymentParserExceptionType.UNKNOWN);
+        ParsedPaymentEntry wrongEntryNoData = new ParsedPaymentEntry(PaymentParserExceptionType.NO_DATA, "TEST");
+        ParsedPaymentEntry wrongEntryWrongDataLength = new ParsedPaymentEntry(PaymentParserExceptionType.WRONG_DATA_LENGTH, "TEST");
+        ParsedPaymentEntry wrongEntryWrongMoneyAmount = new ParsedPaymentEntry(PaymentParserExceptionType.WRONG_MONEY_AMOUNT, "TEST");
+        ParsedPaymentEntry wrongEntryWrongCurrencyValue = new ParsedPaymentEntry(PaymentParserExceptionType.WRONG_CURRENCY_VALUE, "TEST");
+        ParsedPaymentEntry wrongEntryUnknown = new ParsedPaymentEntry(PaymentParserExceptionType.UNKNOWN, "TEST");
 
-        checkWrongPayment(PaymentParserExceptionType.NO_DATA.getMessage(), wrongEntryNoData);
-        checkWrongPayment(PaymentParserExceptionType.WRONG_DATA_LENGTH.getMessage(), wrongEntryWrongDataLength);
-        checkWrongPayment(PaymentParserExceptionType.WRONG_MONEY_AMOUNT.getMessage(), wrongEntryWrongMoneyAmount);
-        checkWrongPayment(PaymentParserExceptionType.WRONG_CURRENCY_VALUE.getMessage(), wrongEntryWrongCurrencyValue);
-        checkWrongPayment(PaymentParserExceptionType.UNKNOWN.getMessage(), wrongEntryUnknown);
+        checkWrongPayment(String.format(INVALID_ENTRY_FORMAT, PaymentParserExceptionType.NO_DATA.getMessage(),"TEST"), wrongEntryNoData);
+        checkWrongPayment(String.format(INVALID_ENTRY_FORMAT, PaymentParserExceptionType.WRONG_DATA_LENGTH.getMessage(),"TEST"), wrongEntryWrongDataLength);
+        checkWrongPayment(String.format(INVALID_ENTRY_FORMAT, PaymentParserExceptionType.WRONG_MONEY_AMOUNT.getMessage(),"TEST"), wrongEntryWrongMoneyAmount);
+        checkWrongPayment(String.format(INVALID_ENTRY_FORMAT, PaymentParserExceptionType.WRONG_CURRENCY_VALUE.getMessage(),"TEST"), wrongEntryWrongCurrencyValue);
+        checkWrongPayment(String.format(INVALID_ENTRY_FORMAT, PaymentParserExceptionType.UNKNOWN.getMessage(),"TEST"), wrongEntryUnknown);
     }
 
     private void checkRightPayment(String expectedOutput, ParsedPaymentEntry inputEntry){

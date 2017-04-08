@@ -11,6 +11,7 @@ import java.util.Locale;
 public class ParsedPaymentFormatterImpl implements IParsedPaymentFormatter{
 
     private static final String VALID_ENTRY_FORMAT = "%s %.2f";
+    public static final String INVALID_ENTRY_FORMAT = "Original Entered entry: \"%2$s\" contain error \"%1$s\" (Entry will be discarded)" ;
 
     public String format(ParsedPaymentEntry parsedPayment){
         if(parsedPayment.isValid()){
@@ -18,7 +19,9 @@ public class ParsedPaymentFormatterImpl implements IParsedPaymentFormatter{
                     parsedPayment.getPaymentEntry().getCurrency(),
                     parsedPayment.getPaymentEntry().getAmount());
         } else {
-            return parsedPayment.getExceptionType().getMessage();
+            return String.format(INVALID_ENTRY_FORMAT,
+                    parsedPayment.getExceptionWrapper().getExceptionType().getMessage(),
+                    parsedPayment.getExceptionWrapper().getOriginalInput());
         }
 
     }
