@@ -2,14 +2,14 @@ package eu.greyson.parser;
 
 
 import eu.greyson.domain.PaymentEntry;
-import eu.greyson.parser.enums.PaymentParserExceptionType;
 import eu.greyson.parser.impl.PaymentParserImpl;
-import eu.greyson.parser.wrapper.ParsedPaymentEntryResult;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import javax.swing.text.html.Option;
 import java.math.BigDecimal;
+import java.util.Optional;
 
 
 public class PaymentParserTest {
@@ -26,8 +26,8 @@ public class PaymentParserTest {
         String nullString = null;
         String emptyString = "";
 
-        assertEqualsPaymentTest(nullString, new ParsedPaymentEntryResult(PaymentParserExceptionType.NO_DATA, ""));
-        assertEqualsPaymentTest(emptyString, new ParsedPaymentEntryResult(PaymentParserExceptionType.NO_DATA, emptyString));
+        assertEqualsPaymentTest(nullString, Optional.empty());
+        assertEqualsPaymentTest(emptyString, Optional.empty());
     }
 
     @Test
@@ -35,8 +35,8 @@ public class PaymentParserTest {
         String lessParametersInput = "USD";
         String moreParametersInput = "USD 100 000";
 
-        assertEqualsPaymentTest(lessParametersInput, new ParsedPaymentEntryResult(PaymentParserExceptionType.WRONG_DATA_LENGTH, lessParametersInput));
-        assertEqualsPaymentTest(moreParametersInput, new ParsedPaymentEntryResult(PaymentParserExceptionType.WRONG_DATA_LENGTH, moreParametersInput));
+        assertEqualsPaymentTest(lessParametersInput, Optional.empty());
+        assertEqualsPaymentTest(moreParametersInput, Optional.empty());
     }
 
     @Test
@@ -45,9 +45,9 @@ public class PaymentParserTest {
         String wrongCurrency2 = "100 100";
         String wrongCurrency3 = "CZK1 100";
 
-        assertEqualsPaymentTest(wrongCurrency1, new ParsedPaymentEntryResult(PaymentParserExceptionType.WRONG_CURRENCY_VALUE, wrongCurrency1));
-        assertEqualsPaymentTest(wrongCurrency2, new ParsedPaymentEntryResult(PaymentParserExceptionType.WRONG_CURRENCY_VALUE, wrongCurrency2));
-        assertEqualsPaymentTest(wrongCurrency3, new ParsedPaymentEntryResult(PaymentParserExceptionType.WRONG_CURRENCY_VALUE, wrongCurrency3));
+        assertEqualsPaymentTest(wrongCurrency1, Optional.empty());
+        assertEqualsPaymentTest(wrongCurrency2, Optional.empty());
+        assertEqualsPaymentTest(wrongCurrency3, Optional.empty());
     }
 
     @Test
@@ -56,9 +56,9 @@ public class PaymentParserTest {
         String wrongAmount2 = "CZK 100,0";
         String wrongAmount3 = "CZK 100.0.";
 
-        assertEqualsPaymentTest(wrongAmount1, new ParsedPaymentEntryResult(PaymentParserExceptionType.WRONG_MONEY_AMOUNT, wrongAmount1));
-        assertEqualsPaymentTest(wrongAmount2, new ParsedPaymentEntryResult(PaymentParserExceptionType.WRONG_MONEY_AMOUNT, wrongAmount2));
-        assertEqualsPaymentTest(wrongAmount3, new ParsedPaymentEntryResult(PaymentParserExceptionType.WRONG_MONEY_AMOUNT, wrongAmount3));
+        assertEqualsPaymentTest(wrongAmount1, Optional.empty());
+        assertEqualsPaymentTest(wrongAmount2, Optional.empty());
+        assertEqualsPaymentTest(wrongAmount3, Optional.empty());
     }
 
     @Test
@@ -69,15 +69,15 @@ public class PaymentParserTest {
         String rightPaymentEntry4 = "RMB +100.5";
         String rightPaymentEntry5 = "RMB +100.";
 
-        assertEqualsPaymentTest(rightPaymentEntry1, new ParsedPaymentEntryResult(new PaymentEntry("USD", new BigDecimal(100.0))));
-        assertEqualsPaymentTest(rightPaymentEntry2, new ParsedPaymentEntryResult(new PaymentEntry("CZK", new BigDecimal(-100.0))));
-        assertEqualsPaymentTest(rightPaymentEntry3, new ParsedPaymentEntryResult(new PaymentEntry("RMB", new BigDecimal(100.0))));
-        assertEqualsPaymentTest(rightPaymentEntry4, new ParsedPaymentEntryResult(new PaymentEntry("RMB", new BigDecimal(100.5))));
-        assertEqualsPaymentTest(rightPaymentEntry5, new ParsedPaymentEntryResult(new PaymentEntry("RMB", new BigDecimal(100.0))));
+        assertEqualsPaymentTest(rightPaymentEntry1, Optional.of(new PaymentEntry("USD", new BigDecimal(100.00))));
+        assertEqualsPaymentTest(rightPaymentEntry2, Optional.of(new PaymentEntry("CZK", new BigDecimal(-100.00))));
+        assertEqualsPaymentTest(rightPaymentEntry3, Optional.of(new PaymentEntry("RMB", new BigDecimal(100.00))));
+        assertEqualsPaymentTest(rightPaymentEntry4, Optional.of(new PaymentEntry("RMB", new BigDecimal(100.50))));
+        assertEqualsPaymentTest(rightPaymentEntry5, Optional.of(new PaymentEntry("RMB", new BigDecimal(100.00))));
     }
 
-    private void assertEqualsPaymentTest(String input, ParsedPaymentEntryResult expected){
-        ParsedPaymentEntryResult parsedResult = parser.parse(input);
+    private void assertEqualsPaymentTest(String input, Optional<PaymentEntry> expected){
+        Optional<PaymentEntry> parsedResult = parser.parse(input);
         Assert.assertEquals(expected, parsedResult);
 
     }

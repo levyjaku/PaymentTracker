@@ -5,7 +5,6 @@ import java.math.BigDecimal;
 /**
  * DTO for wrapping information about one payment entry
  */
-
 public class PaymentEntry {
 
     private final BigDecimal amount;

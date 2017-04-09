@@ -1,6 +1,6 @@
 package eu.greyson.utils;
 
-import eu.greyson.parser.wrapper.ParsedPaymentEntryResult;
+import eu.greyson.domain.PaymentEntry;
 
 import java.math.BigDecimal;
 import java.math.MathContext;
@@ -9,8 +9,8 @@ import java.util.function.Predicate;
 
 public class FilterUtils {
 
-    public static Predicate<ParsedPaymentEntryResult> twoPrecisionRoundedDecimalIsNotNull = parsedPaymentEntry -> {
-        BigDecimal roundedValue = parsedPaymentEntry.getPaymentEntry().getAmount()
+    public static final Predicate<PaymentEntry> twoPrecisionRoundedDecimalIsNotNull = paymentEntry -> {
+        BigDecimal roundedValue = paymentEntry.getAmount()
                 .round(new MathContext(2, RoundingMode.HALF_UP));
 
         return !BigDecimal.ZERO.equals(roundedValue);

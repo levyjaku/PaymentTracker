@@ -5,7 +5,7 @@ package eu.greyson.exception;
  */
 public class InitialDataLoadException extends Exception {
 
-    private int errorCode;
+    private final int errorCode;
 
     public InitialDataLoadException(String message, int errorCode) {
         super(message);

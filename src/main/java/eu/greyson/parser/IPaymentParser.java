@@ -1,12 +1,14 @@
 package eu.greyson.parser;
 
-import eu.greyson.parser.wrapper.ParsedPaymentEntryResult;
+import eu.greyson.domain.PaymentEntry;
+
+import java.util.Optional;
 
 /**
  * General interface for parsing payments
  */
 public interface IPaymentParser {
 
-    ParsedPaymentEntryResult parse(String source);
+    Optional<PaymentEntry> parse(String source);
 
 }
