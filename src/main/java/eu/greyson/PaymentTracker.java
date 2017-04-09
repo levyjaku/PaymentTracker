@@ -22,7 +22,7 @@ public class PaymentTracker {
 
     private final static String QUIT_COMMAND_PHRASE = "quit";
 
-    private final static long PAYMENT_PRINT_JOB_DELAY_IN_SECONDS = 5;
+    private final static long PAYMENT_PRINT_JOB_DELAY_IN_SECONDS = 60;
 
     public static void main(String[] args) {
         BufferedReader initialInputDataReader = null;

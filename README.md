@@ -7,16 +7,18 @@ User can enter the data (payment entry) in format:
 CURRENCY_CODE AMOUNT
 ```
 
-Currency code must be in three letters capital (according ISO 4217 + extra RMB).
+Currency code must be three letters capital (according ISO 4217 + extra RMB).
 
 Examples:
-USD 100
-CZK +200.5
+USD 100<br/>
+CZK +200.5<br/>
 RMB 0.5
  
 When user enter invalid entry application print to console message about this error.
 
 Every one minute application print to console actual payment balance - sum of amount of each currency ordered by currency code.
+
+When user write to 'quit' to console, application will exit.
 
 ## Prerequisites
 <ul>
