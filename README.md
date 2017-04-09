@@ -16,7 +16,7 @@ RMB 0.5
  
 When user enter invalid entry application print to console message about this error.
 
-Every one minute application print to console actual payment balance - sum of amount of each currency ordered by currency code.
+Every one minute application print to console actual payment balance - sum of amount of each currency (with 2 decimal places) ordered by currency code.
 
 When user write to 'quit' to console, application will exit.
 
