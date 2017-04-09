@@ -16,8 +16,8 @@ public class TwoPrecisionRoundedDecimalFilterTest {
     public void testFilterForZeroValue(){
         Stream<PaymentEntry> entries = getStreamFromPayments(
                 new PaymentEntry("CZK", new BigDecimal(0.00)),
-                new PaymentEntry("CZK", new BigDecimal(+0.00)),
-                new PaymentEntry("CZK", new BigDecimal(-0.00)));
+                new PaymentEntry("CZK", new BigDecimal(-0.00)),
+                new PaymentEntry("CZK", new BigDecimal(-0.001)));
 
         Assert.assertEquals(0, entries.filter(FilterUtils.twoPrecisionRoundedDecimalIsNotNull).count());
     }
