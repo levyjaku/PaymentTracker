@@ -39,15 +39,19 @@ public class PaymentPrintJob {
         if(!running){
             this.running = true;
 
-            Runnable r = () -> System.out.printf(PAYMENT_OUTPUT_STRING_DECORATOR,
-                    register.getActualPaymentBalance()
-                            .stream()
-                            .filter(FilterUtils.twoPrecisionRoundedDecimalIsNotNull)
-                            .map(this.formatter::format)
-                            .collect(Collectors.joining("\n")));
+            Runnable r = () -> printPaymentBalance();
 
             scheduledExecutorService.scheduleAtFixedRate(r, 0, periodInSecond, TimeUnit.SECONDS);
         }
+    }
+
+    private void printPaymentBalance(){
+        System.out.printf(PAYMENT_OUTPUT_STRING_DECORATOR,
+                register.getActualPaymentBalance()
+                        .stream()
+                        .filter(FilterUtils.twoPrecisionRoundedDecimalIsNotNull)
+                        .map(this.formatter::format)
+                        .collect(Collectors.joining("\n")));
     }
 
     public void stop(){

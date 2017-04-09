@@ -28,7 +28,7 @@ public class PaymentRegister {
     }
 
     /**
-     * Sum all entries with same currency
+     * Sum and order all entries with same currency
      * @return List of summed payment entries ordered by currency
      */
     public List<PaymentEntry> getActualPaymentBalance() {

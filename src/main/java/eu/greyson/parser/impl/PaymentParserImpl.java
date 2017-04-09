@@ -19,7 +19,7 @@ import java.util.Optional;
 public class PaymentParserImpl implements IPaymentParser {
     private final static String SEPARATOR = "\\s+";
     private final static int PARAMETERS_REQUIRED_COUNT = 2;
-    private final static String EXCEPTION_MESSAGE_FORMAT = "Original Entered entry: \"%2$s\" contain error \"%1$s\" (Entry will be ignored)" ;
+    private final static String EXCEPTION_MESSAGE_FORMAT = "Original Entered entry: \"%s\" contain error \"%s\" (Entry will be ignored)" ;
 
     private static final List<String> extendedCurrencyCodes = new LinkedList<>();
     static {
@@ -27,6 +27,13 @@ public class PaymentParserImpl implements IPaymentParser {
     }
 
 
+    /**
+     * Parse source into {@link PaymentEntry}.
+     * Check if source is valid. If it is invalid write error message to console.
+     *
+     * @param source string intended to be parsed
+     * @return parsed object or empty object when some error occurred
+     */
     public Optional<PaymentEntry> parse(String source) {
 
         /*
@@ -82,11 +89,17 @@ public class PaymentParserImpl implements IPaymentParser {
     }
 
     private boolean isCurrencyCodeValid(String currencyCode){
+        /*
+         * Adding some extra currency code
+         */
         if(extendedCurrencyCodes.contains(currencyCode)){
             return true;
         }
 
         try {
+            /*
+             * Try to create instance of Currency. It will successfully finished then given code is according ISO 4217
+             */
             Currency.getInstance(currencyCode);
         } catch (IllegalArgumentException ie){
             return false;

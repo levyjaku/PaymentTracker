@@ -103,8 +103,7 @@ public class PaymentTracker {
                     register.addPayment(line);
                 }
             } catch (IOException e) {
-                System.out.println("Can not load data from file. System will exit.");
-                System.exit(CAN_NOT_LOAD_DATA_FROM_FILE);
+                System.out.println("Can not read line from file!");
             }
         }
     }
