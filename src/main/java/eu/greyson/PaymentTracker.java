@@ -18,7 +18,6 @@ public class PaymentTracker {
     private final static int INCORRECT_NUMBER_OF_INPUT_ARGUMENT_ERROR_CODE = 1;
     private final static int CAN_NOT_LOAD_FILE_ERROR_CODE = 2;
     private final static int ENTERED_PATH_NOT_LINK_FILE_ERROR_CODE = 3;
-    private final static int CAN_NOT_LOAD_DATA_FROM_FILE = 4;
     private final static int CAN_NOT_LOAD_DATA_FROM_CONSOLE = 5;
 
     private final static String QUIT_COMMAND_PHRASE = "quit";
@@ -84,14 +83,18 @@ public class PaymentTracker {
 
         File file = new File(args[0]);
 
+        if(!file.exists()){
+            throw new InitialDataLoadException("Can not load file - file not found. System will exit.", CAN_NOT_LOAD_FILE_ERROR_CODE);
+        }
+
         if (file.isFile()) {
             try {
                 return new BufferedReader(new FileReader(file));
             } catch (FileNotFoundException e) {
-                throw new InitialDataLoadException("Can not load file. System will exit.", CAN_NOT_LOAD_FILE_ERROR_CODE);
+                throw new InitialDataLoadException("Can not load file - file not found. System will exit.", CAN_NOT_LOAD_FILE_ERROR_CODE);
             }
         } else {
-            throw new InitialDataLoadException("Entered path do not link file. ", ENTERED_PATH_NOT_LINK_FILE_ERROR_CODE);
+            throw new InitialDataLoadException("Entered path does not link file. ", ENTERED_PATH_NOT_LINK_FILE_ERROR_CODE);
         }
     }
 

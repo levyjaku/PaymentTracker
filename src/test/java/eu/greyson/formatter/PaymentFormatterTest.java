@@ -18,7 +18,7 @@ public class PaymentFormatterTest {
     }
 
     @Test
-    public void testFormatterIfPaymentEntryIsValid(){
+    public void testFormatterOutput(){
         PaymentEntry rightEntry1 = new PaymentEntry("USD", new BigDecimal(100.0));
         PaymentEntry rightEntry2 = new PaymentEntry("USD", new BigDecimal(+100.0));
         PaymentEntry rightEntry3 = new PaymentEntry("USD", new BigDecimal(-100.0));

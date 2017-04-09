@@ -19,7 +19,7 @@ import java.util.Optional;
 public class PaymentParserImpl implements IPaymentParser {
     private final static String SEPARATOR = "\\s+";
     private final static int PARAMETERS_REQUIRED_COUNT = 2;
-    private final static String EXCEPTION_MESSAGE_FORMAT = "Original Entered entry: \"%s\" contain error \"%s\" (Entry will be ignored)" ;
+    private final static String EXCEPTION_MESSAGE_FORMAT = "\nEntered payment entry: \"%s\" contain error \"%s\" (Entry will be ignored)\n" ;
 
     private static final List<String> extendedCurrencyCodes = new LinkedList<>();
     static {
