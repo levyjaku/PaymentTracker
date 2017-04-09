@@ -2,7 +2,7 @@ package eu.greyson.domain;
 
 import eu.greyson.formatter.IParsedPaymentFormatter;
 import eu.greyson.parser.IPaymentParser;
-import eu.greyson.parser.wrapper.ParsedPaymentEntry;
+import eu.greyson.parser.wrapper.ParsedPaymentEntryResult;
 import eu.greyson.utils.FilterUtils;
 
 import java.math.BigDecimal;
@@ -18,9 +18,9 @@ public class PaymentRegister {
     /**
      * Thread safe List for storing all payment entries {@link PaymentEntry}
      */
-    private final List<ParsedPaymentEntry> storedPaymentEntries = new CopyOnWriteArrayList<>();
+    private final List<ParsedPaymentEntryResult> storedPaymentEntries = new CopyOnWriteArrayList<>();
 
-    private final List<ParsedPaymentEntry> invalidPaymentEntries = new CopyOnWriteArrayList<>();
+    private final List<ParsedPaymentEntryResult> invalidPaymentEntries = new CopyOnWriteArrayList<>();
 
 
     private final IPaymentParser paymentParser;
@@ -32,11 +32,11 @@ public class PaymentRegister {
     }
 
     public void addPayment(String paymentEntryRow) {
-        ParsedPaymentEntry result = paymentParser.parse(paymentEntryRow);
+        ParsedPaymentEntryResult result = paymentParser.parse(paymentEntryRow);
         processParsedResult(result);
     }
 
-    private void processParsedResult(ParsedPaymentEntry result) {
+    private void processParsedResult(ParsedPaymentEntryResult result) {
         if (result.isValid()) {
             storedPaymentEntries.add(result);
         } else {
@@ -54,7 +54,7 @@ public class PaymentRegister {
      */
     public String getFormattedPaymentSumResultAndClearErrors() {
         StringBuilder sb = new StringBuilder();
-        List<ParsedPaymentEntry> summedPaymentEntries = sumEntries(storedPaymentEntries);
+        List<ParsedPaymentEntryResult> summedPaymentEntries = sumEntries(storedPaymentEntries);
 
         if(!summedPaymentEntries.isEmpty()) {
             sb.append(summedPaymentEntries.stream()
@@ -81,10 +81,10 @@ public class PaymentRegister {
      * @param entries for processing
      * @return List of summed payment entries ordered by currency
      */
-    private List<ParsedPaymentEntry> sumEntries(List<ParsedPaymentEntry> entries) {
+    private List<ParsedPaymentEntryResult> sumEntries(List<ParsedPaymentEntryResult> entries) {
         Map<String, BigDecimal> summedEntries = new HashMap<>();
 
-        for (ParsedPaymentEntry entry : entries) {
+        for (ParsedPaymentEntryResult entry : entries) {
             String currency = entry.getPaymentEntry().getCurrency();
             BigDecimal amount = entry.getPaymentEntry().getAmount();
 
@@ -95,8 +95,8 @@ public class PaymentRegister {
             }
         }
 
-        List<ParsedPaymentEntry> result = summedEntries.entrySet().stream()
-                .map(e -> new ParsedPaymentEntry(new PaymentEntry(e.getKey(), e.getValue())))
+        List<ParsedPaymentEntryResult> result = summedEntries.entrySet().stream()
+                .map(e -> new ParsedPaymentEntryResult(new PaymentEntry(e.getKey(), e.getValue())))
                 .collect(Collectors.toList());
 
         Collections.sort(result, Comparator.comparing(p -> p.getPaymentEntry().getCurrency()));

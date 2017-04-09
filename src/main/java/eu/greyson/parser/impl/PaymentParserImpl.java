@@ -3,7 +3,7 @@ package eu.greyson.parser.impl;
 import eu.greyson.domain.PaymentEntry;
 import eu.greyson.parser.IPaymentParser;
 import eu.greyson.parser.enums.PaymentParserExceptionType;
-import eu.greyson.parser.wrapper.ParsedPaymentEntry;
+import eu.greyson.parser.wrapper.ParsedPaymentEntryResult;
 
 import java.math.BigDecimal;
 import java.util.Currency;
@@ -24,13 +24,13 @@ public class PaymentParserImpl implements IPaymentParser {
     }
 
 
-    public ParsedPaymentEntry parse(String source) {
+    public ParsedPaymentEntryResult parse(String source) {
 
         /**
          * Check if input is not empty
          */
         if (source == null || source.isEmpty()) {
-            return new ParsedPaymentEntry(PaymentParserExceptionType.NO_DATA, "");
+            return new ParsedPaymentEntryResult(PaymentParserExceptionType.NO_DATA, "");
         }
 
         String[] parts = source.split(SEPARATOR);
@@ -41,7 +41,7 @@ public class PaymentParserImpl implements IPaymentParser {
              * Check if input has right number of parameters
              */
             if (parts.length != PARAMETERS_REQUIRED_COUNT) {
-                return new ParsedPaymentEntry(PaymentParserExceptionType.WRONG_DATA_LENGTH, source);
+                return new ParsedPaymentEntryResult(PaymentParserExceptionType.WRONG_DATA_LENGTH, source);
             } else {
 
                 /**
@@ -49,7 +49,7 @@ public class PaymentParserImpl implements IPaymentParser {
                  */
                 String currencyCode = parts[0];
                 if(!isCurrencyCodeValid(currencyCode)){
-                    return new ParsedPaymentEntry(PaymentParserExceptionType.WRONG_CURRENCY_VALUE, source);
+                    return new ParsedPaymentEntryResult(PaymentParserExceptionType.WRONG_CURRENCY_VALUE, source);
                 }
 
                 /**
@@ -60,16 +60,16 @@ public class PaymentParserImpl implements IPaymentParser {
                 try {
                     convertedCurrencyValue = new BigDecimal(currencyValue);
                 } catch (NumberFormatException ne) {
-                    return new ParsedPaymentEntry(PaymentParserExceptionType.WRONG_MONEY_AMOUNT, source);
+                    return new ParsedPaymentEntryResult(PaymentParserExceptionType.WRONG_MONEY_AMOUNT, source);
                 }
 
-                return new ParsedPaymentEntry(new PaymentEntry(currencyCode, convertedCurrencyValue));
+                return new ParsedPaymentEntryResult(new PaymentEntry(currencyCode, convertedCurrencyValue));
             }
         } catch (RuntimeException re) {
             /**
              * When during parsing some error occurred set exception to result as uknown
              */
-            return new ParsedPaymentEntry(PaymentParserExceptionType.UNKNOWN, source);
+            return new ParsedPaymentEntryResult(PaymentParserExceptionType.UNKNOWN, source);
         }
     }
 

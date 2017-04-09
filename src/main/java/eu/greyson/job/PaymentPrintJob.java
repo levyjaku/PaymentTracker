@@ -12,7 +12,8 @@ import java.util.concurrent.TimeUnit;
  */
 public class PaymentPrintJob {
 
-    private final static String PAYMENT_OUTPUT_STRING_DECORATOR =  "REGISTERED PAYMENT STATE:\n%s\n\n";
+    private final static String PAYMENT_OUTPUT_STRING_DECORATOR =  "\n--- ACTUAL REGISTERED PAYMENT BALANCE ---\n%s\n" +
+            "-----------------------------------------\n";
 
     private boolean running = false;
 
@@ -20,20 +21,26 @@ public class PaymentPrintJob {
 
     private final Long periodInSecond;
 
+    private final ScheduledExecutorService scheduledExecutorService;
+
     public PaymentPrintJob(PaymentRegister register, Long periodInSecond) {
         this.register = register;
         this.periodInSecond = periodInSecond;
+        this.scheduledExecutorService = Executors.newScheduledThreadPool(1);
     }
 
     public synchronized void start(){
         if(!running){
             this.running = true;
-            ScheduledExecutorService scheduledExecutorService = Executors.newScheduledThreadPool(1);
 
             Runnable r = () -> System.out.printf(PAYMENT_OUTPUT_STRING_DECORATOR, register.getFormattedPaymentSumResultAndClearErrors());
 
             scheduledExecutorService.scheduleAtFixedRate(r, 0, periodInSecond, TimeUnit.SECONDS);
         }
+    }
+
+    public void stop(){
+        this.scheduledExecutorService.shutdownNow();
     }
 
 }

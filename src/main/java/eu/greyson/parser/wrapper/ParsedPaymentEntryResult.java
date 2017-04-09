@@ -7,7 +7,7 @@ import eu.greyson.parser.enums.PaymentParserExceptionType;
 /**
  * Class for wrapping result from class implementing {@Link IPaymentParser}.
  */
-public class ParsedPaymentEntry {
+public class ParsedPaymentEntryResult {
 
     private PaymentEntry paymentEntry;
 
@@ -22,7 +22,7 @@ public class ParsedPaymentEntry {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        ParsedPaymentEntry that = (ParsedPaymentEntry) o;
+        ParsedPaymentEntryResult that = (ParsedPaymentEntryResult) o;
 
         if (paymentEntry != null ? !paymentEntry.equals(that.paymentEntry) : that.paymentEntry != null) return false;
         return exceptionWrapper != null ? exceptionWrapper.equals(that.exceptionWrapper) : that.exceptionWrapper == null;
@@ -37,7 +37,7 @@ public class ParsedPaymentEntry {
 
     @Override
     public String toString() {
-        return "ParsedPaymentEntry{" +
+        return "ParsedPaymentEntryResult{" +
                 "paymentEntry=" + paymentEntry +
                 ", exceptionWrapper=" + exceptionWrapper +
                 '}';
@@ -47,11 +47,11 @@ public class ParsedPaymentEntry {
      * Getters and Setters
      */
 
-    public ParsedPaymentEntry(PaymentEntry paymentEntry) {
+    public ParsedPaymentEntryResult(PaymentEntry paymentEntry) {
         this.paymentEntry = paymentEntry;
     }
 
-    public ParsedPaymentEntry(PaymentParserExceptionType exceptionType, String originalInput) {
+    public ParsedPaymentEntryResult(PaymentParserExceptionType exceptionType, String originalInput) {
         this.exceptionWrapper = new ExceptionWrapper(exceptionType, originalInput);
     }
 

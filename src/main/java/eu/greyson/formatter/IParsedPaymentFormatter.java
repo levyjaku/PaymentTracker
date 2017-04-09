@@ -1,11 +1,11 @@
 package eu.greyson.formatter;
 
-import eu.greyson.parser.wrapper.ParsedPaymentEntry;
+import eu.greyson.parser.wrapper.ParsedPaymentEntryResult;
 
 /**
- * Formatter for parsed payment entry {@Link ParsedPaymentEntry}
+ * Formatter for parsed payment entry {@Link ParsedPaymentEntryResult}
  */
 public interface IParsedPaymentFormatter {
 
-    String format(ParsedPaymentEntry parsedPayment);
+    String format(ParsedPaymentEntryResult parsedPayment);
 }
