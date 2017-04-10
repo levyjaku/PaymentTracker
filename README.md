@@ -31,7 +31,7 @@ When user write to 'quit' to console, application will exit.
 1. Compile Application
 ```mvn clean package```
 
-2. Go to  ```target/``` folder
+2. Go to  ```target/``` folder using command ```cd target```
 
 3. Run application using java -jar ```payment-tracker-1.0.jar``` or ```payment-tracker-1.0.jar FILEPATH``` where FILEPATH is path to file containing initial data for application
  
