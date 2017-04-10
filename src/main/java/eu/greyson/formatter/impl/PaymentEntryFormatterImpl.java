@@ -10,10 +10,10 @@ import java.util.Locale;
  */
 public class PaymentEntryFormatterImpl implements PaymentEntryFormatter {
 
-    private static final String VALID_ENTRY_FORMAT = "%s %.2f";
+    private static final String PAYMENT_ENTRY_FORMAT = "%s %.2f";
 
     public String format(PaymentEntry paymentEntry) {
-        return String.format(Locale.US, VALID_ENTRY_FORMAT,
+        return String.format(Locale.US, PAYMENT_ENTRY_FORMAT,
                 paymentEntry.getCurrency(),
                 paymentEntry.getAmount());
     }
