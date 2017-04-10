@@ -5,8 +5,6 @@ import eu.greyson.parser.IPaymentParser;
 import eu.greyson.parser.enums.PaymentParserExceptionType;
 
 import java.math.BigDecimal;
-import java.math.MathContext;
-import java.math.RoundingMode;
 import java.util.Currency;
 import java.util.LinkedList;
 import java.util.List;
@@ -84,7 +82,7 @@ public class PaymentParserImpl implements IPaymentParser {
     }
 
     private Optional<PaymentEntry> logErrorAndReturnEmptyOptional(String source, PaymentParserExceptionType type){
-        System.out.printf(EXCEPTION_MESSAGE_FORMAT, source, type);
+        System.out.printf(EXCEPTION_MESSAGE_FORMAT, source, type.getMessage());
         return Optional.empty();
     }
 

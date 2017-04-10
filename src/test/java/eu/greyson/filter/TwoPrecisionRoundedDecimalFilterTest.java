@@ -15,9 +15,9 @@ public class TwoPrecisionRoundedDecimalFilterTest {
     @Test
     public void testFilterForZeroValue(){
         Stream<PaymentEntry> entries = getStreamFromPayments(
-                new PaymentEntry("CZK", new BigDecimal(0.00)),
-                new PaymentEntry("CZK", new BigDecimal(-0.00)),
-                new PaymentEntry("CZK", new BigDecimal(-0.001)));
+                new PaymentEntry("CZK", new BigDecimal("0.00")),
+                new PaymentEntry("CZK", new BigDecimal("-0.00")),
+                new PaymentEntry("CZK", new BigDecimal("-0.001")));
 
         Assert.assertEquals(0, entries.filter(FilterUtils.twoPrecisionRoundedDecimalIsNotNull).count());
     }
@@ -25,9 +25,9 @@ public class TwoPrecisionRoundedDecimalFilterTest {
     @Test
     public void testFilterForNonZeroValue(){
         Stream<PaymentEntry> entries = getStreamFromPayments(
-                new PaymentEntry("CZK", new BigDecimal(5.00)),
-                new PaymentEntry("CZK", new BigDecimal(+5.00)),
-                new PaymentEntry("CZK", new BigDecimal(-5.00)));
+                new PaymentEntry("CZK", new BigDecimal("5.00")),
+                new PaymentEntry("CZK", new BigDecimal("+5.00")),
+                new PaymentEntry("CZK", new BigDecimal("-5.00")));
 
         Assert.assertEquals(3, entries.filter(FilterUtils.twoPrecisionRoundedDecimalIsNotNull).count());
     }

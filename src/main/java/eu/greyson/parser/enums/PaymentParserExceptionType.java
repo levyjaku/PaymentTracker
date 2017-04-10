@@ -40,4 +40,7 @@ public enum PaymentParserExceptionType {
         this.message = message;
     }
 
+    public String getMessage() {
+        return message;
+    }
 }

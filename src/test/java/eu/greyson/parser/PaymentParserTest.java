@@ -68,12 +68,14 @@ public class PaymentParserTest {
         String rightPaymentEntry3 = "RMB +100";
         String rightPaymentEntry4 = "RMB +100.5";
         String rightPaymentEntry5 = "RMB +100.";
+        String rightPaymentEntry6 = "RMB +100.000001";
 
-        assertEqualsPaymentTest(rightPaymentEntry1, Optional.of(new PaymentEntry("USD", new BigDecimal(100.00))));
-        assertEqualsPaymentTest(rightPaymentEntry2, Optional.of(new PaymentEntry("CZK", new BigDecimal(-100.00))));
-        assertEqualsPaymentTest(rightPaymentEntry3, Optional.of(new PaymentEntry("RMB", new BigDecimal(100.00))));
-        assertEqualsPaymentTest(rightPaymentEntry4, Optional.of(new PaymentEntry("RMB", new BigDecimal(100.50))));
-        assertEqualsPaymentTest(rightPaymentEntry5, Optional.of(new PaymentEntry("RMB", new BigDecimal(100.00))));
+        assertEqualsPaymentTest(rightPaymentEntry1, Optional.of(new PaymentEntry("USD", new BigDecimal("100"))));
+        assertEqualsPaymentTest(rightPaymentEntry2, Optional.of(new PaymentEntry("CZK", new BigDecimal("-100"))));
+        assertEqualsPaymentTest(rightPaymentEntry3, Optional.of(new PaymentEntry("RMB", new BigDecimal("+100"))));
+        assertEqualsPaymentTest(rightPaymentEntry4, Optional.of(new PaymentEntry("RMB", new BigDecimal("+100.5"))));
+        assertEqualsPaymentTest(rightPaymentEntry5, Optional.of(new PaymentEntry("RMB", new BigDecimal("+100."))));
+        assertEqualsPaymentTest(rightPaymentEntry6, Optional.of(new PaymentEntry("RMB", new BigDecimal("+100.000001"))));
     }
 
     private void assertEqualsPaymentTest(String input, Optional<PaymentEntry> expected){

@@ -3,7 +3,10 @@ package eu.greyson.domain;
 import eu.greyson.parser.IPaymentParser;
 
 import java.math.BigDecimal;
-import java.util.*;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.stream.Collectors;
 

@@ -19,15 +19,17 @@ public class PaymentFormatterTest {
 
     @Test
     public void testFormatterOutput(){
-        PaymentEntry rightEntry1 = new PaymentEntry("USD", new BigDecimal(100.0));
-        PaymentEntry rightEntry2 = new PaymentEntry("USD", new BigDecimal(+100.0));
-        PaymentEntry rightEntry3 = new PaymentEntry("USD", new BigDecimal(-100.0));
-        PaymentEntry rightEntry4 = new PaymentEntry("USD", new BigDecimal(+100.004));
+        PaymentEntry rightEntry1 = new PaymentEntry("USD", new BigDecimal("100.0"));
+        PaymentEntry rightEntry2 = new PaymentEntry("USD", new BigDecimal("+100.0"));
+        PaymentEntry rightEntry3 = new PaymentEntry("USD", new BigDecimal("-100.0"));
+        PaymentEntry rightEntry4 = new PaymentEntry("USD", new BigDecimal("+100.004"));
+        PaymentEntry rightEntry5 = new PaymentEntry("USD", new BigDecimal("+100.005"));
 
         Assert.assertEquals("USD 100.00", formatter.format(rightEntry1));
         Assert.assertEquals("USD 100.00", formatter.format(rightEntry2));
         Assert.assertEquals("USD -100.00", formatter.format(rightEntry3));
         Assert.assertEquals("USD 100.00", formatter.format(rightEntry4));
+        Assert.assertEquals("USD 100.01", formatter.format(rightEntry5));
     }
 
 }
